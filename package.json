@@ -1,14 +1,20 @@
 {
+  "scripts": {
+    "start": "/usr/bin/env node bin/forge"
+  },
   "dependencies": {
-    "tftp": "^0.1.0",
-    "routes": "^1.1.0",
-    "st": "^0.5.3",
-    "node-dhcpd": "git+https://github.com/konobi/node-dhcpd",
-    "node-lmdb": "^0.2.1",
-    "netmask": "^1.0.4",
-    "ejs": "^1.0.0",
     "async": "^0.9.0",
     "bunyan": "^0.23.1",
-    "clone": "^1.0.2"
+    "clone": "^1.0.2",
+    "ejs": "^1.0.0",
+    "forge-localdb": "git+https://github.com/konobi/forge-localdb",
+    "nconf": "^0.7.2",
+    "netmask": "^1.0.4",
+    "node-dhcpd": "git+https://github.com/chipzz/node-dhcpd",
+    "node-lmdb": "^0.2.1",
+    "node-static": "^0.7.7",
+    "routes": "^1.1.0",
+    "st": "^0.5.3",
+    "tftp": "^0.1.0"
   }
 }

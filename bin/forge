@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+
+var forge = require('../lib/forge');
+var merge = require('deepmerge');
+var conf = require('nconf');
+
+var conf
+	.defaults({
+		storage: {
+			type: 'localdb',
+			options: {
+				path: '/var/lib/forge/leases.db'
+			}
+		},
+		dhcp: {
+			host: '192.168.1.2',
+			range_start: '192.168.1.50',
+			range_end: '192.168.1.100',
+			subnet: '192.168.1.0/24'
+			routers: ['192.168.1.1']
+			nameservers: ['8.8.8.8','208.67.222.222','8.8.4.4','208.67.220.220']
+		},
+		tftp: {
+			host: '0.0.0.0',
+			port: 69,
+			root: '/var/lib/forge/'
+		},
+		http: {
+			
+		},
+		boots: {
+			debian: {
+				dir: 'debian/'
+			},
+			ubuntu: {
+				dir: 'ubuntu/'
+			}
+		}
+	})
+	.argv()
+	.env()
+	.file('storage', '/etc/forge/config.json');
+
+var dhcpConf = conf.get('dhcp');
+var pxeConf = conf.get('pxe');
+
+var storeOpts = merge(
+	conf.get('storage:options'),
+	{
+		start: dhcpConf.start,
+		end: dhcpConf.end 
+	}
+);
+
+var forgeOpts = {
+	dhcp: merge(
+		conf.get('dhcp'),
+		{
+			store:store
+		}
+	)
+}
+
+var storedb = require('forge-'+nconf.get('storage:type'));
+var store = new storedb(storeOpts);
+
+var server = new forge({
+  dhcp: merge()
+    store: store,
+  }
+});
+
